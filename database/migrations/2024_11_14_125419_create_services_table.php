@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    // database/migrations/[timestamp]_create_services_table.php
+    public function up()
+    {
+        Schema::create('services', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('provider_id')->constrained('users');
+            $table->string('title');
+            $table->text('description');
+            $table->string('category');
+            $table->decimal('price', 10, 2);
+            $table->integer('duration');
+            $table->string('location_type');
+            $table->string('image')->nullable();
+            $table->decimal('rating', 3, 2)->default(0);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('admin_notes')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('services');
+    }
+};
